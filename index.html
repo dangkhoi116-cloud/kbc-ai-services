@@ -1780,6 +1780,23 @@
     // ============================================================
     const WEB3FORMS_KEY = '8828a264-a8e7-4220-95f1-e58b9c080fa9';
 
+    // ============================================================
+    // GOOGLE SHEETS — Apps Script webhook (dangkhoi116@gmail.com)
+    // ============================================================
+    const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyIhY-FeQYuHqcCPT-6hBblJ8dhq5m2gx8ARLVm2g2ZEAmIwsUsdqnPc2mJ8ye5LG-FAg/exec';
+
+    async function saveToSheets(payload) {
+        try {
+            const res = await fetch(SHEETS_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            console.log('[Sheets]', res.status, data);
+        } catch (err) { console.error('[Sheets] error:', err); }
+    }
+
     async function sendEmailNotification(payload) {
         if (!WEB3FORMS_KEY || WEB3FORMS_KEY === 'YOUR_WEB3FORMS_KEY') return;
         try {
@@ -1844,8 +1861,9 @@
             submitted_at: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
         };
 
-        // Gửi email (fire and forget — không chờ)
+        // Gửi email + lưu Google Sheets (fire and forget — không chờ)
         sendEmailNotification(payload);
+        saveToSheets(payload);
 
         let success = false;
         if (WEBHOOK_URL) {
