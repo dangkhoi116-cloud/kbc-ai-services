@@ -535,6 +535,67 @@
         .fb-tg { background:#0088cc; color:white; }
         .fb-zl { background:#0068ff; color:white; }
 
+        /* ========== LEAD FORM ========== */
+        .lead-bg { background: var(--bg); }
+        .form-card {
+            max-width: 680px; margin: 0 auto;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: var(--r-lg); padding: 40px 36px;
+        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 7px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-label { font-size: .83rem; font-weight: 700; color: var(--text); }
+        .req { color: var(--danger); margin-left: 2px; }
+        .form-input, .form-textarea, .form-select {
+            background: rgba(255,255,255,.05); border: 1.5px solid var(--border);
+            border-radius: 9px; padding: 12px 14px; color: var(--text);
+            font-size: .9rem; font-family: inherit; width: 100%;
+            transition: border-color .25s, box-shadow .25s;
+        }
+        .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none; border-color: rgba(99,102,241,.55);
+            box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+        }
+        .form-select { appearance: none; cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238888a8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center;
+            padding-right: 36px;
+        }
+        .form-select option { background: var(--bg3); color: var(--text); }
+        .form-textarea { resize: vertical; min-height: 120px; line-height: 1.65; }
+        .btn-submit {
+            width: 100%; padding: 15px; border-radius: 11px;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
+            color: white; border: none; font-size: 1rem; font-weight: 800;
+            cursor: pointer; font-family: inherit; transition: all .3s;
+            display: flex; align-items: center; justify-content: center; gap: 9px;
+            margin-top: 8px;
+        }
+        .btn-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(99,102,241,.4); }
+        .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+        .form-success { display: none; text-align: center; padding: 16px 0; }
+        .form-success .s-icon { font-size: 3.5rem; margin-bottom: 16px; }
+        .form-success h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--success); }
+        .form-success p { font-size: .92rem; margin-bottom: 20px; }
+        .form-success .tg-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #0088cc; color: white; padding: 12px 28px;
+            border-radius: 10px; font-weight: 700; text-decoration: none; transition: all .3s;
+        }
+        .form-success .tg-link:hover { opacity: .88; transform: translateY(-1px); }
+        .form-err {
+            background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.25);
+            color: #fca5a5; border-radius: 9px; padding: 12px 14px;
+            font-size: .85rem; display: none; margin-top: 10px;
+        }
+        @media (max-width: 580px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: 1; }
+            .form-card { padding: 28px 20px; }
+        }
+
         /* ========== PAYMENT MODAL ========== */
         .pay-overlay {
             position:fixed; inset:0; z-index:2000;
@@ -646,6 +707,7 @@
             <a href="#services">Dịch Vụ</a>
             <a href="#pricing">Bảng Giá</a>
             <a href="#faq">FAQ</a>
+            <a href="#tu-van">Tư Vấn</a>
         </div>
         <a href="#contact" class="btn-nav">Tư Vấn Miễn Phí →</a>
     </div>
@@ -1197,6 +1259,107 @@
 </section>
 
 
+<!-- ========== LEAD FORM ========== -->
+<section class="section lead-bg" id="tu-van">
+    <div class="container">
+        <div class="sec-hdr reveal">
+            <div class="sec-label">Tư Vấn Miễn Phí</div>
+            <h2>Để Lại Thông Tin — Em Liên Hệ Lại Trong 2 Giờ</h2>
+            <p>Mô tả nhu cầu của anh/chị, em phân tích miễn phí và đề xuất giải pháp AI phù hợp nhất.</p>
+        </div>
+
+        <div class="form-card reveal">
+
+            <!-- Success state -->
+            <div class="form-success" id="form-success">
+                <div class="s-icon">✅</div>
+                <h3>Gửi thành công!</h3>
+                <p>Em đã nhận được thông tin và sẽ liên hệ anh/chị trong vòng <strong style="color:var(--text);">2 giờ</strong>.<br>Muốn nhanh hơn — nhắn trực tiếp qua Telegram nhé!</p>
+                <a href="https://t.me/KBC_Sales_bot" target="_blank" rel="noopener" class="tg-link">✈ Nhắn Telegram Ngay</a>
+            </div>
+
+            <!-- Form -->
+            <form id="lead-form" novalidate>
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label class="form-label" for="f-name">Họ và tên <span class="req">*</span></label>
+                        <input class="form-input" type="text" id="f-name" name="name"
+                            placeholder="Nguyễn Văn A" required autocomplete="name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="f-phone">Số điện thoại <span class="req">*</span></label>
+                        <input class="form-input" type="tel" id="f-phone" name="phone"
+                            placeholder="0912 345 678" required autocomplete="tel" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="f-email">Email</label>
+                        <input class="form-input" type="email" id="f-email" name="email"
+                            placeholder="email@example.com" autocomplete="email" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="f-city">Khu vực</label>
+                        <select class="form-select" id="f-city" name="city">
+                            <option value="">— Chọn khu vực —</option>
+                            <option>TP. Hồ Chí Minh</option>
+                            <option>Hà Nội</option>
+                            <option>Đà Nẵng</option>
+                            <option>Cần Thơ</option>
+                            <option>Bình Dương</option>
+                            <option>Đồng Nai</option>
+                            <option>Khác</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="f-service">Dịch vụ quan tâm <span class="req">*</span></label>
+                        <select class="form-select" id="f-service" name="service" required>
+                            <option value="">— Chọn dịch vụ —</option>
+                            <option>AI Chatbot 24/7</option>
+                            <option>Workflow Automation (n8n)</option>
+                            <option>Hermes Agent (MCP)</option>
+                            <option>Landing Page</option>
+                            <option>Web Application</option>
+                            <option>Tư vấn tổng thể</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="f-budget">Ngân sách dự kiến</label>
+                        <select class="form-select" id="f-budget" name="budget">
+                            <option value="">— Chọn ngân sách —</option>
+                            <option>Dưới 3 triệu</option>
+                            <option>3 – 8 triệu</option>
+                            <option>8 – 20 triệu</option>
+                            <option>Trên 20 triệu</option>
+                            <option>Chưa xác định</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label class="form-label" for="f-needs">Mô tả nhu cầu <span class="req">*</span></label>
+                        <textarea class="form-textarea" id="f-needs" name="needs" required
+                            placeholder="VD: Shop mình bán thời trang online, khách hay hỏi giá và size lúc đêm khuya mà không có người trả lời. Cần chatbot tự động, kết nối Fanpage Facebook và website..."></textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-err" id="form-err">⚠️ Có lỗi xảy ra. Vui lòng thử lại hoặc nhắn trực tiếp qua Telegram.</div>
+
+                <button type="submit" class="btn-submit" id="btn-submit">
+                    <span id="btn-txt">🚀 Gửi Thông Tin — Nhận Tư Vấn Miễn Phí</span>
+                </button>
+                <p style="text-align:center;font-size:.77rem;color:var(--muted);margin-top:10px;">
+                    🔒 Thông tin của anh/chị được bảo mật — không chia sẻ với bên thứ ba
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+
 <!-- ========== FINAL CTA ========== -->
 <section class="final-cta" id="contact">
     <div class="container">
@@ -1444,6 +1607,76 @@
             navEl.style.top = '36px';
         }
     }, { passive: true });
+
+    // ============================================================
+    // LEAD FORM
+    // ⚠️ Thay WEBHOOK_URL bằng n8n webhook URL sau khi setup HTTPS
+    // Ví dụ: https://n8n.DOMAIN_CUA_ANH.com/webhook/lead-kbcai
+    // ============================================================
+    const WEBHOOK_URL = '';  // Để trống → dùng Telegram fallback
+
+    document.getElementById('lead-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const form = this;
+        const btn = document.getElementById('btn-submit');
+        const btnTxt = document.getElementById('btn-txt');
+        const errEl = document.getElementById('form-err');
+
+        // Validate required fields
+        const name    = document.getElementById('f-name').value.trim();
+        const phone   = document.getElementById('f-phone').value.trim();
+        const service = document.getElementById('f-service').value;
+        const needs   = document.getElementById('f-needs').value.trim();
+
+        if (!name || !phone || !service || !needs) {
+            errEl.textContent = '⚠️ Vui lòng điền đầy đủ các trường có dấu *.';
+            errEl.style.display = 'block';
+            return;
+        }
+        errEl.style.display = 'none';
+
+        // Loading state
+        btn.disabled = true;
+        btnTxt.textContent = '⏳ Đang gửi...';
+
+        const payload = {
+            name,
+            phone,
+            email:   document.getElementById('f-email').value.trim(),
+            city:    document.getElementById('f-city').value,
+            service,
+            budget:  document.getElementById('f-budget').value,
+            needs,
+            source:  'kbc-ai-services.vercel.app',
+            submitted_at: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
+        };
+
+        let success = false;
+
+        if (WEBHOOK_URL) {
+            try {
+                const res = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                success = res.ok;
+            } catch (_) { success = false; }
+        } else {
+            // No webhook configured — still show success, direct to Telegram
+            success = true;
+        }
+
+        if (success) {
+            form.style.display = 'none';
+            document.getElementById('form-success').style.display = 'block';
+        } else {
+            errEl.textContent = '⚠️ Có lỗi xảy ra. Vui lòng thử lại hoặc nhắn trực tiếp qua Telegram.';
+            errEl.style.display = 'block';
+            btn.disabled = false;
+            btnTxt.textContent = '🚀 Gửi Thông Tin — Nhận Tư Vấn Miễn Phí';
+        }
+    });
 
     // Payment modals
     function openModal(id) {
