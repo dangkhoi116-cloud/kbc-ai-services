@@ -1787,13 +1787,14 @@
 
     async function saveToSheets(payload) {
         try {
-            const res = await fetch(SHEETS_URL, {
+            // Google Apps Script requires no-cors + text/plain to avoid CORS redirect block
+            await fetch(SHEETS_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
                 body: JSON.stringify(payload)
             });
-            const data = await res.json();
-            console.log('[Sheets]', res.status, data);
+            console.log('[Sheets] Request sent');
         } catch (err) { console.error('[Sheets] error:', err); }
     }
 
