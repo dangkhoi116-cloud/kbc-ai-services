@@ -1774,6 +1774,38 @@
     // ============================================================
     const WEBHOOK_URL = '';  // Để trống → dùng Telegram fallback
 
+    // ============================================================
+    // EMAIL NOTIFICATION — Web3Forms (free, no backend needed)
+    // Get access key: web3forms.com/create → enter Dangkhoi116@gmail.com
+    // ============================================================
+    const WEB3FORMS_KEY = 'YOUR_WEB3FORMS_KEY'; // ← thay bằng key thật sau khi lấy
+
+    async function sendEmailNotification(payload) {
+        if (!WEB3FORMS_KEY || WEB3FORMS_KEY === 'YOUR_WEB3FORMS_KEY') return;
+        try {
+            await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    access_key: WEB3FORMS_KEY,
+                    subject: '🔔 KBC AI — Lead mới từ website',
+                    from_name: 'KBC AI Website',
+                    replyto: payload.email || 'no-reply@kbc-ai.com',
+                    message:
+                        '👤 Tên: ' + payload.name + '\n' +
+                        '📱 SĐT: ' + payload.phone + '\n' +
+                        '📧 Email: ' + (payload.email || 'Không có') + '\n' +
+                        '🏙️ Khu vực: ' + (payload.city || 'Không có') + '\n' +
+                        '🛠️ Dịch vụ: ' + payload.service + '\n' +
+                        '💰 Ngân sách: ' + (payload.budget || 'Không có') + '\n\n' +
+                        '📝 Nhu cầu:\n' + payload.needs + '\n\n' +
+                        '⏰ ' + payload.submitted_at + '\n' +
+                        '🌐 Nguồn: ' + payload.source
+                })
+            });
+        } catch (_) { /* fire and forget — không ảnh hưởng UX */ }
+    }
+
     document.getElementById('lead-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         const form = this;
@@ -1808,6 +1840,9 @@
             source:  'kbc-ai-services.vercel.app',
             submitted_at: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
         };
+
+        // Gửi email (fire and forget — không chờ)
+        sendEmailNotification(payload);
 
         let success = false;
         if (WEBHOOK_URL) {
