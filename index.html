@@ -1803,7 +1803,9 @@
                         '🌐 Nguồn: ' + payload.source
                 })
             });
-        } catch (_) { /* fire and forget — không ảnh hưởng UX */ }
+            const data = await res.json();
+            console.log('[Web3Forms]', res.status, data);
+        } catch (err) { console.error('[Web3Forms] error:', err); }
     }
 
     document.getElementById('lead-form').addEventListener('submit', async function(e) {
