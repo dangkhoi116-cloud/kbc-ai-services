@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBC AI Services — Tự Động Hóa Doanh Nghiệp Bằng AI</title>
+    <meta name="description" content="Chatbot AI 24/7, Workflow Automation n8n/Make.com, Hermes Agent MCP — Giải pháp AI toàn diện cho doanh nghiệp Việt. Triển khai trong 3 ngày.">
+    <meta property="og:title" content="KBC AI Services — Tự Động Hóa Doanh Nghiệp Bằng AI">
+    <meta property="og:description" content="AI Chatbot, Automation, Hermes Agent — Tiết kiệm 20+ giờ/tuần cho doanh nghiệp của bạn.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========== RESET & BASE ========== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:       #07070f;
+            --bg2:      #0c0c18;
+            --bg3:      #101022;
+            --card:     #13132a;
+            --border:   rgba(255,255,255,0.07);
+            --accent:   #6366f1;
+            --accent2:  #22d3ee;
+            --accent3:  #a78bfa;
+            --success:  #22c55e;
+            --warning:  #f59e0b;
+            --danger:   #ef4444;
+            --text:     #e1e1f0;
+            --muted:    #8888a8;
+            --r:        12px;
+            --r-lg:     20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Be Vietnam Pro', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        h1 { font-size: clamp(1.9rem, 4.5vw, 3.4rem); font-weight: 900; line-height: 1.12; }
+        h2 { font-size: clamp(1.55rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.22; }
+        h3 { font-size: clamp(1.05rem, 2vw, 1.3rem); font-weight: 700; }
+        p  { font-size: 1rem; color: var(--muted); line-height: 1.8; }
+
+        a { color: inherit; }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent2) 0%, var(--accent3) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .container  { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+        .section    { padding: 88px 0; }
+        .section-sm { padding: 56px 0; }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeUp   { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes pulse    { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+        @keyframes float    { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-9px);} }
+        @keyframes glow     { 0%,100%{box-shadow:0 0 20px rgba(99,102,241,.3);} 50%{box-shadow:0 0 40px rgba(99,102,241,.6);} }
+
+        .fade-up { animation: fadeUp .75s ease both; }
+        .delay-1 { animation-delay: .1s; }
+        .delay-2 { animation-delay: .2s; }
+        .delay-3 { animation-delay: .35s; }
+
+        .reveal { opacity:0; transform:translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        /* ========== ANNOUNCEMENT BAR ========== */
+        .announce-bar {
+            position: fixed; top:0; left:0; right:0; z-index:1001;
+            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 50%, #4f46e5 100%);
+            background-size: 200% 100%;
+            animation: shimmer-bg 4s linear infinite;
+            padding: 9px 20px;
+            text-align: center;
+            font-size: .8rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: .02em;
+        }
+        @keyframes shimmer-bg {
+            0%   { background-position: 0% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .announce-bar a { color: #bfdbfe; text-decoration: underline; margin-left: 10px; }
+        .announce-bar a:hover { color: white; }
+        .announce-count { color: #fde68a; font-weight: 800; }
+        /* smooth hide on scroll */
+        .announce-bar { transition: transform .3s ease; }
+
+        /* ========== NAVBAR ========== */
+        .nav {
+            position: fixed; top:36px; left:0; right:0; z-index:1000;
+            padding: 14px 0;
+            background: rgba(7,7,15,.88);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            transition: padding .3s, top .3s;
+        }
+        .nav.scrolled { padding: 10px 0; }
+        .nav-inner {
+            display:flex; align-items:center; justify-content:space-between;
+            max-width:1080px; margin:0 auto; padding:0 22px;
+        }
+        .logo {
+            font-size:1.35rem; font-weight:900;
+            background: linear-gradient(135deg, var(--accent2), var(--accent3));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+            text-decoration:none; letter-spacing:-.02em;
+        }
+        .nav-links { display:flex; align-items:center; gap:28px; }
+        .nav-links a { font-size:.88rem; color:var(--muted); text-decoration:none; font-weight:500; transition:color .25s; }
+        .nav-links a:hover { color:var(--text); }
+        .btn-nav {
+            background: linear-gradient(135deg, var(--accent), #4f46e5);
+            color:white; padding:9px 20px; border-radius:8px;
+            font-weight:700; font-size:.88rem; text-decoration:none; transition:all .3s;
+        }
+        .btn-nav:hover { opacity:.9; transform:translateY(-1px); box-shadow:0 8px 22px rgba(99,102,241,.4); }
+
+        /* ========== HERO ========== */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center;
+            padding-top: 116px;
+            position: relative; overflow: hidden;
+        }
+        .hero-glow-1 {
+            position:absolute; width:700px; height:700px; border-radius:50%;
+            background: radial-gradient(circle, rgba(99,102,241,.12), transparent 70%);
+            top:-200px; left:-150px; pointer-events:none;
+        }
+        .hero-glow-2 {
+            position:absolute; width:600px; height:600px; border-radius:50%;
+            background: radial-gradient(circle, rgba(34,211,238,.08), transparent 70%);
+            top:100px; right:-200px; pointer-events:none;
+        }
+
+        .hero-grid {
+            display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
+            padding:80px 0 60px;
+        }
+
+        .hero-eyebrow {
+            display:inline-flex; align-items:center; gap:8px;
+            background:rgba(34,211,238,.1); border:1px solid rgba(34,211,238,.22);
+            border-radius:100px; padding:5px 16px;
+            font-size:.82rem; font-weight:600; color:var(--accent2);
+            margin-bottom:22px;
+        }
+        .hero-eyebrow .dot {
+            width:7px;height:7px;border-radius:50%;
+            background:var(--accent2); animation:pulse 2s infinite;
+        }
+
+        .hero h1 { margin-bottom:18px; }
+        .hero > .container > .hero-grid > .hero-copy > p { font-size:1.1rem; margin-bottom:34px; }
+
+        .btn-group { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:44px; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #4f46e5);
+            color:white; padding:15px 30px; border-radius:10px;
+            font-weight:700; font-size:.97rem;
+            display:inline-flex; align-items:center; gap:8px;
+            text-decoration:none; transition:all .3s; border:none; cursor:pointer;
+        }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 14px 30px rgba(99,102,241,.45); }
+
+        .btn-outline {
+            background:transparent; color:var(--text);
+            padding:15px 30px; border-radius:10px;
+            font-weight:600; font-size:.97rem;
+            display:inline-flex; align-items:center; gap:8px;
+            text-decoration:none; border:1px solid var(--border); transition:all .3s;
+        }
+        .btn-outline:hover { background:rgba(255,255,255,.05); transform:translateY(-2px); }
+
+        .hero-numbers {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+        }
+        .hero-num-item { }
+        .hero-num {
+            font-size:1.9rem; font-weight:900;
+            background:linear-gradient(135deg, var(--accent2), var(--accent3));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+        }
+        .hero-num-label { font-size:.8rem; color:var(--muted); margin-top:2px; }
+
+        /* Hero visual card */
+        .hero-visual { position:relative; }
+        .chat-mockup {
+            background:var(--card); border:1px solid rgba(99,102,241,.25);
+            border-radius:var(--r-lg); padding:24px;
+            animation:float 4.5s ease-in-out infinite;
+            box-shadow:0 30px 60px rgba(0,0,0,.4);
+        }
+        .chat-header {
+            display:flex; align-items:center; gap:10px;
+            padding-bottom:16px; margin-bottom:16px;
+            border-bottom:1px solid var(--border);
+        }
+        .chat-avatar {
+            width:38px; height:38px; border-radius:50%;
+            background:linear-gradient(135deg,var(--accent),var(--accent2));
+            display:flex; align-items:center; justify-content:center; font-size:1.1rem;
+        }
+        .chat-header-info strong { display:block; font-size:.88rem; }
+        .chat-header-info span { font-size:.75rem; color:var(--success); }
+        .chat-bubble {
+            border-radius:12px; padding:12px 14px; margin-bottom:10px; font-size:.85rem; line-height:1.55;
+        }
+        .chat-bubble.user { background:rgba(255,255,255,.06); color:var(--text); }
+        .chat-bubble.bot  { background:rgba(99,102,241,.18); border:1px solid rgba(99,102,241,.2); color:var(--text); }
+        .chat-bubble-label { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; margin-bottom:5px; }
+        .chat-bubble.user .chat-bubble-label { color:var(--muted); }
+        .chat-bubble.bot  .chat-bubble-label { color:var(--accent2); }
+        .typing { display:flex; gap:4px; padding:6px 0; }
+        .typing span {
+            width:6px;height:6px;border-radius:50%;
+            background:var(--accent); animation:pulse 1.2s infinite;
+        }
+        .typing span:nth-child(2){animation-delay:.2s;}
+        .typing span:nth-child(3){animation-delay:.4s;}
+
+        .badge-float {
+            position:absolute; background:var(--card);
+            border:1px solid rgba(34,197,94,.3);
+            border-radius:10px; padding:12px 16px;
+            display:flex; align-items:center; gap:10px;
+            font-size:.82rem; font-weight:600;
+            box-shadow:0 10px 30px rgba(0,0,0,.3);
+        }
+        .badge-float.b1 { top:-18px; right:-18px; }
+        .badge-float.b2 { bottom:-18px; left:-18px; }
+        .badge-float .icon { font-size:1.3rem; }
+
+        /* ========== SECTION HEADER ========== */
+        .sec-label {
+            font-size:.75rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+            color:var(--accent); margin-bottom:10px;
+        }
+        .sec-hdr { text-align:center; margin-bottom:56px; }
+        .sec-hdr h2 { margin-bottom:14px; }
+        .sec-hdr p { max-width:560px; margin:0 auto; }
+
+        /* ========== PAIN SECTION ========== */
+        .pain { background:var(--bg2); }
+
+        .pain-grid {
+            display:grid; grid-template-columns:repeat(2,1fr); gap:18px;
+        }
+        .pain-card {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:var(--r); padding:24px 22px;
+            display:flex; gap:16px; align-items:flex-start;
+            transition:all .3s;
+        }
+        .pain-card:hover { border-color:rgba(239,68,68,.25); transform:translateY(-3px); }
+        .pain-card-icon { font-size:1.9rem; flex-shrink:0; line-height:1; }
+        .pain-card h3 { font-size:.97rem; margin-bottom:6px; color:var(--text); }
+        .pain-card p  { font-size:.86rem; }
+
+        /* ========== SOLUTION ========== */
+        .solution-intro {
+            text-align:center; max-width:680px; margin:0 auto 56px;
+        }
+        .pill-badge {
+            display:inline-block;
+            background:rgba(99,102,241,.14); border:1px solid rgba(99,102,241,.28);
+            color:var(--accent3); padding:5px 18px; border-radius:100px;
+            font-size:.82rem; font-weight:700; margin-bottom:20px; letter-spacing:.03em;
+        }
+        .steps-3 {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:720px; margin:0 auto;
+        }
+        .step-box {
+            text-align:center; background:var(--card); border:1px solid var(--border);
+            border-radius:var(--r); padding:26px 20px; transition:all .3s;
+        }
+        .step-box:hover { border-color:rgba(99,102,241,.3); transform:translateY(-3px); }
+        .step-box-num {
+            font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+            color:var(--accent); margin-bottom:10px;
+        }
+        .step-box-icon { font-size:2rem; margin-bottom:12px; }
+        .step-box h3 { font-size:.95rem; margin-bottom:8px; }
+        .step-box p  { font-size:.83rem; }
+
+        /* ========== SERVICES ========== */
+        .services-bg { background:var(--bg2); }
+
+        .svc-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+        }
+        .svc-card {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:var(--r-lg); padding:26px 22px;
+            position:relative; overflow:hidden; transition:all .35s;
+            display:flex; flex-direction:column;
+        }
+        .svc-card::after {
+            content:''; position:absolute; top:0;left:0;right:0; height:2px;
+            background:linear-gradient(90deg,var(--accent),var(--accent2)); opacity:0; transition:.35s;
+        }
+        .svc-card:hover { border-color:rgba(99,102,241,.28); transform:translateY(-5px); box-shadow:0 22px 44px rgba(0,0,0,.3); }
+        .svc-card:hover::after { opacity:1; }
+        .svc-icon {
+            width:50px;height:50px; background:rgba(99,102,241,.14);
+            border-radius:12px; display:flex; align-items:center; justify-content:center;
+            font-size:1.5rem; margin-bottom:16px;
+        }
+        .svc-card h3 { font-size:1.02rem; margin-bottom:9px; color:var(--text); }
+        .svc-card > p  { font-size:.86rem; margin-bottom:16px; }
+        .svc-list { list-style:none; margin-bottom:20px; flex:1; }
+        .svc-list li {
+            display:flex; align-items:flex-start; gap:8px;
+            font-size:.84rem; color:var(--text); padding:3px 0;
+        }
+        .svc-list li::before { content:'✓'; color:var(--success); font-weight:800; flex-shrink:0; margin-top:1px; }
+        .svc-price { display:flex; align-items:baseline; gap:6px; margin-top:auto; padding-top:14px; border-top:1px solid var(--border); }
+        .svc-from { font-size:.78rem; color:var(--muted); }
+        .svc-amount { font-size:1.35rem; font-weight:900; color:var(--accent2); }
+        .svc-unit  { font-size:.78rem; color:var(--muted); }
+
+        /* Hermes full-width */
+        .hermes-card {
+            grid-column:1/-1;
+            background:linear-gradient(145deg, var(--card) 0%, rgba(99,102,241,.1) 100%);
+            border-color:rgba(99,102,241,.3);
+            display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+        }
+        .hermes-card::after { opacity:1; background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3)); height:3px; }
+        .hermes-features {
+            display:grid; grid-template-columns:1fr 1fr; gap:10px;
+        }
+        .h-feat {
+            background:rgba(255,255,255,.04); border:1px solid var(--border);
+            border-radius:9px; padding:11px 13px;
+            display:flex; align-items:center; gap:9px; font-size:.84rem; color:var(--text);
+            transition:all .25s;
+        }
+        .h-feat:hover { border-color:rgba(99,102,241,.3); background:rgba(99,102,241,.07); }
+        .h-feat .fi { font-size:1.05rem; }
+        .top-badge {
+            position:absolute; top:20px; right:20px;
+            background:linear-gradient(135deg,var(--accent),var(--accent3));
+            color:white; font-size:.7rem; font-weight:800; padding:4px 14px;
+            border-radius:100px; letter-spacing:.05em; text-transform:uppercase;
+        }
+
+        /* ========== HOW IT WORKS ========== */
+        .hiw-track {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:24px; position:relative;
+        }
+        .hiw-track::before {
+            content:''; position:absolute; top:38px;
+            left:calc(16.67% + 20px); right:calc(16.67% + 20px); height:2px;
+            background:linear-gradient(90deg,var(--accent),var(--accent2)); opacity:.25;
+        }
+        .hiw-step { text-align:center; }
+        .hiw-num {
+            width:68px;height:68px; border-radius:50%;
+            background:linear-gradient(135deg,var(--accent),var(--accent3));
+            color:white; font-size:1.5rem; font-weight:900;
+            display:flex; align-items:center; justify-content:center;
+            margin:0 auto 20px; position:relative; z-index:1;
+            animation:glow 3s ease-in-out infinite;
+        }
+        .hiw-step:nth-child(2) .hiw-num { animation-delay:1s; }
+        .hiw-step:nth-child(3) .hiw-num { animation-delay:2s; }
+        .hiw-step h3 { margin-bottom:10px; }
+
+        /* ========== STATS ========== */
+        .stats-bg { background:var(--bg2); }
+        .stats-bar {
+            display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:52px;
+        }
+        .stat-box {
+            text-align:center; background:var(--card); border:1px solid var(--border);
+            border-radius:var(--r); padding:28px 16px;
+        }
+        .stat-box .num { font-size:2.4rem; font-weight:900; }
+        .stat-box .lbl { font-size:.83rem; color:var(--muted); margin-top:6px; }
+
+        /* Testimonials */
+        .testi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+        .testi-card {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:var(--r-lg); padding:26px 22px; position:relative;
+        }
+        .testi-card::before {
+            content:'"'; position:absolute; top:14px; right:18px;
+            font-size:4.5rem; color:var(--accent); opacity:.12; line-height:1; font-family:Georgia,serif;
+        }
+        .stars { color:var(--warning); font-size:.95rem; letter-spacing:3px; margin-bottom:14px; }
+        .testi-card blockquote { font-size:.88rem; line-height:1.72; color:var(--text); font-style:italic; margin-bottom:20px; }
+        .testi-author { display:flex; align-items:center; gap:12px; }
+        .avatar {
+            width:42px;height:42px; border-radius:50%;
+            background:linear-gradient(135deg,var(--accent),var(--accent2));
+            display:flex;align-items:center;justify-content:center; font-size:1.1rem; flex-shrink:0;
+        }
+        .testi-info strong { display:block; font-size:.88rem; color:var(--text); }
+        .testi-info span  { font-size:.78rem; color:var(--muted); }
+
+        /* ========== PRICING ========== */
+        .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; align-items:start; }
+
+        .plan-card {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:var(--r-lg); padding:30px 26px; position:relative;
+        }
+        .plan-card.popular {
+            border-color:rgba(99,102,241,.45);
+            background:linear-gradient(145deg,var(--card),rgba(99,102,241,.08));
+            transform:scale(1.035);
+        }
+        .popular-tag {
+            position:absolute; top:-13px; left:50%; transform:translateX(-50%);
+            background:linear-gradient(135deg,var(--accent),var(--accent3));
+            color:white; font-size:.74rem; font-weight:800; padding:5px 20px;
+            border-radius:100px; white-space:nowrap; letter-spacing:.05em; text-transform:uppercase;
+        }
+        .plan-name { font-size:.78rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; font-weight:700; margin-bottom:8px; }
+        .plan-price { font-size:2.1rem; font-weight:900; color:var(--text); line-height:1.1; margin-bottom:4px; }
+        .plan-price sub { font-size:1rem; font-weight:400; color:var(--muted); vertical-align:baseline; }
+        .plan-desc { font-size:.86rem; color:var(--muted); margin-bottom:22px; padding-bottom:20px; border-bottom:1px solid var(--border); }
+        .plan-list { list-style:none; margin-bottom:26px; }
+        .plan-list li {
+            display:flex; align-items:flex-start; gap:9px; font-size:.86rem; padding:5px 0; color:var(--text);
+        }
+        .chk { color:var(--success); font-weight:800; flex-shrink:0; margin-top:1px; }
+        .xmark { color:var(--muted); flex-shrink:0; margin-top:1px; opacity:.6; }
+
+        .btn-plan {
+            display:block; text-align:center; padding:13px;
+            border-radius:10px; font-weight:700; font-size:.94rem;
+            text-decoration:none; transition:all .3s;
+        }
+        .btn-plan.solid {
+            background:linear-gradient(135deg,var(--accent),var(--accent3)); color:white;
+        }
+        .btn-plan.solid:hover { box-shadow:0 12px 28px rgba(99,102,241,.4); transform:translateY(-2px); }
+        .btn-plan.ghost { border:1.5px solid var(--border); color:var(--text); }
+        .btn-plan.ghost:hover { border-color:rgba(99,102,241,.45); transform:translateY(-2px); }
+
+        /* ========== GUARANTEE ========== */
+        .guarantee-bg { background:var(--bg2); }
+        .g-box {
+            max-width:680px; margin:0 auto;
+            background:linear-gradient(135deg,rgba(34,197,94,.09),rgba(34,211,238,.07));
+            border:1px solid rgba(34,197,94,.22); border-radius:var(--r-lg);
+            padding:52px 44px; text-align:center;
+        }
+        .g-icon { font-size:4.5rem; margin-bottom:20px; }
+        .g-box h2 { color:var(--success); margin-bottom:16px; }
+        .g-box p  { max-width:500px; margin:0 auto; font-size:.97rem; }
+
+        /* ========== FAQ ========== */
+        .faq-bg { background:var(--bg2); }
+        .faq-wrap { max-width:720px; margin:0 auto; }
+        .faq-item { border:1px solid var(--border); border-radius:var(--r); margin-bottom:10px; overflow:hidden; }
+        .faq-btn {
+            width:100%; background:var(--card); border:none; padding:18px 22px;
+            text-align:left; color:var(--text); font-family:inherit; font-size:.93rem; font-weight:600;
+            cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:14px;
+            transition:background .22s;
+        }
+        .faq-btn:hover { background:rgba(255,255,255,.04); }
+        .faq-arrow {
+            width:24px;height:24px;border-radius:50%;
+            background:rgba(99,102,241,.18); color:var(--accent2);
+            display:flex;align-items:center;justify-content:center;
+            font-size:1.15rem; flex-shrink:0; transition:transform .3s;
+        }
+        .faq-item.open .faq-arrow { transform:rotate(45deg); }
+        .faq-body { display:none; padding:0 22px 18px; background:var(--card); }
+        .faq-item.open .faq-body { display:block; }
+        .faq-body p { font-size:.88rem; }
+
+        /* ========== FINAL CTA ========== */
+        .final-cta {
+            padding:100px 0; text-align:center;
+            background:radial-gradient(ellipse at 50% 0%, rgba(99,102,241,.18) 0%, transparent 65%);
+        }
+        .final-cta h2 { margin-bottom:18px; }
+        .final-cta > .container > p { max-width:520px; margin:0 auto 40px; font-size:1.05rem; }
+        .cta-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:32px; }
+        .contact-row { display:flex; gap:26px; justify-content:center; flex-wrap:wrap; margin-bottom:28px; }
+        .contact-item { display:flex;align-items:center;gap:8px; font-size:.88rem; }
+        .contact-item a { color:var(--accent2); text-decoration:none; }
+        .contact-item a:hover { text-decoration:underline; }
+        .trust-row { display:flex; gap:22px; justify-content:center; flex-wrap:wrap; }
+        .trust-item { display:flex;align-items:center;gap:6px; font-size:.82rem; color:var(--muted); }
+        .trust-item .ok { color:var(--success); }
+        .ps-note {
+            margin-top:30px; font-size:.85rem; color:var(--muted);
+            max-width:500px; margin-left:auto; margin-right:auto;
+        }
+        .ps-note strong { color:var(--text); }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background:var(--bg2); border-top:1px solid var(--border);
+            padding:36px 0; text-align:center;
+        }
+        footer p { font-size:.83rem; }
+        footer a { color:var(--accent2); text-decoration:none; }
+        footer a:hover { text-decoration:underline; }
+
+        /* ========== FLOATING BUTTONS ========== */
+        .float-group {
+            position:fixed; bottom:90px; right:20px;
+            display:flex; flex-direction:column; gap:10px; z-index:500;
+        }
+        .float-btn {
+            width:48px;height:48px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            font-size:1.25rem; text-decoration:none; font-weight:700;
+            box-shadow:0 6px 18px rgba(0,0,0,.35); transition:all .3s;
+        }
+        .float-btn:hover { transform:scale(1.12) translateY(-2px); }
+        .fb-tg { background:#0088cc; color:white; }
+        .fb-zl { background:#0068ff; color:white; }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns:1fr; gap:40px; }
+            .hero-visual { display:none; }
+            .hermes-card { grid-template-columns:1fr; gap:28px; }
+            .pricing-grid { grid-template-columns:1fr; }
+            .plan-card.popular { transform:none; }
+            .stats-bar { grid-template-columns:repeat(2,1fr); }
+            .nav-links { display:none; }
+        }
+        @media (max-width: 680px) {
+            .pain-grid { grid-template-columns:1fr; }
+            .svc-grid { grid-template-columns:1fr; }
+            .steps-3 { grid-template-columns:1fr; }
+            .hiw-track { grid-template-columns:1fr; }
+            .hiw-track::before { display:none; }
+            .testi-grid { grid-template-columns:1fr; }
+            .hermes-features { grid-template-columns:1fr; }
+            .g-box { padding:30px 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ========== ANNOUNCEMENT BAR ========== -->
+<div class="announce-bar">
+    🔥 Tháng 6/2026 — Chỉ nhận thêm <span class="announce-count">2 dự án</span> nữa. Slot lấp đầy nhanh.
+    <a href="#contact">Đặt lịch ngay →</a>
+</div>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <a href="#" class="logo">KBC AI</a>
+        <div class="nav-links">
+            <a href="#services">Dịch Vụ</a>
+            <a href="#pricing">Bảng Giá</a>
+            <a href="#faq">FAQ</a>
+        </div>
+        <a href="#contact" class="btn-nav">Tư Vấn Miễn Phí →</a>
+    </div>
+</nav>
+
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+    <div class="container">
+        <div class="hero-grid">
+            <!-- Copy -->
+            <div class="hero-copy">
+                <div class="hero-eyebrow fade-up">
+                    <span class="dot"></span>
+                    AI Automation for Vietnamese Business
+                </div>
+                <h1 class="fade-up delay-1">
+                    Để AI Làm Việc Thay Bạn —<br>
+                    <span class="gradient-text">Tiết Kiệm 20+ Giờ</span> Mỗi Tuần
+                </h1>
+                <p class="fade-up delay-2">
+                    Chatbot AI 24/7, Workflow Automation, Hermes Agent MCP — tôi xây hệ thống AI tự động hóa toàn bộ quy trình kinh doanh của bạn. Triển khai trong 3–7 ngày.
+                </p>
+                <div class="btn-group fade-up delay-3">
+                    <a href="#contact" class="btn-primary">🚀 Nhận Tư Vấn Miễn Phí</a>
+                    <a href="#services" class="btn-outline">Xem Dịch Vụ ↓</a>
+                </div>
+                <div class="hero-numbers fade-up delay-3">
+                    <div class="hero-num-item">
+                        <div class="hero-num">20h+</div>
+                        <div class="hero-num-label">Tiết kiệm/tuần</div>
+                    </div>
+                    <div class="hero-num-item">
+                        <div class="hero-num">24/7</div>
+                        <div class="hero-num-label">AI hoạt động</div>
+                    </div>
+                    <div class="hero-num-item">
+                        <div class="hero-num">3 ngày</div>
+                        <div class="hero-num-label">Triển khai xong</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual -->
+            <div class="hero-visual fade-up delay-2">
+                <div class="badge-float b1">
+                    <span class="icon">⚡</span>
+                    <div>
+                        <strong style="display:block;font-size:.82rem;">Workflow tự chạy</strong>
+                        <span style="font-size:.75rem;color:var(--success);">● Đang hoạt động</span>
+                    </div>
+                </div>
+                <div class="chat-mockup">
+                    <div class="chat-header">
+                        <div class="chat-avatar">🤖</div>
+                        <div class="chat-header-info">
+                            <strong>KBC AI Assistant</strong>
+                            <span>● Online 24/7</span>
+                        </div>
+                    </div>
+                    <div class="chat-bubble user">
+                        <div class="chat-bubble-label">Khách hàng • 11:52 PM</div>
+                        Cho hỏi sản phẩm có bảo hành không? Giá bao nhiêu?
+                    </div>
+                    <div class="chat-bubble bot">
+                        <div class="chat-bubble-label">AI Assistant</div>
+                        Dạ, sản phẩm được bảo hành 12 tháng chính hãng anh/chị nhé! Giá hiện tại từ 2.500.000₫, đang có chương trình giảm 15% đến hết tuần. Anh/chị muốn tư vấn thêm không? 😊
+                    </div>
+                    <div class="chat-bubble user">
+                        <div class="chat-bubble-label">Khách hàng</div>
+                        Có giao hàng Đà Nẵng không?
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:4px 0;">
+                        <span style="font-size:.75rem;color:var(--muted);">AI đang trả lời...</span>
+                        <div class="typing"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+                <div class="badge-float b2">
+                    <span class="icon">📊</span>
+                    <div>
+                        <strong style="display:block;font-size:.82rem;">Báo cáo tự gửi Telegram</strong>
+                        <span style="font-size:.75rem;color:var(--muted);">Mỗi tối 9:00 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PAIN ========== -->
+<section class="section pain">
+    <div class="container">
+        <div class="sec-hdr reveal">
+            <div class="sec-label">Vấn Đề</div>
+            <h2>Bạn Đang Tốn Thời Gian Vào Những Việc AI Có Thể Làm Thay</h2>
+            <p>Mỗi ngày, chủ doanh nghiệp Việt lãng phí 4–6 giờ vào công việc lặp đi lặp lại...</p>
+        </div>
+        <div class="pain-grid">
+            <div class="pain-card reveal">
+                <div class="pain-card-icon">😰</div>
+                <div>
+                    <h3>Trả lời cùng câu hỏi 50 lần/ngày</h3>
+                    <p>Giá bao nhiêu? Giao bao lâu? Sản phẩm phù hợp không? Nhân viên kiệt sức, khách chờ đợi và bỏ đi.</p>
+                </div>
+            </div>
+            <div class="pain-card reveal">
+                <div class="pain-card-icon">⏰</div>
+                <div>
+                    <h3>Quy trình thủ công ngốn 3–4 giờ/ngày</h3>
+                    <p>Copy data từ form sang sheet, gửi email nhắc nhở thủ công, tổng hợp báo cáo mất cả buổi chiều.</p>
+                </div>
+            </div>
+            <div class="pain-card reveal">
+                <div class="pain-card-icon">🌙</div>
+                <div>
+                    <h3>Mất khách hàng ngoài giờ làm việc</h3>
+                    <p>Khách hỏi lúc 11PM — sáng hôm sau mới trả lời. Khi đó họ đã mua của đối thủ. AI không có = doanh thu đêm bị mất.</p>
+                </div>
+            </div>
+            <div class="pain-card reveal">
+                <div class="pain-card-icon">📊</div>
+                <div>
+                    <h3>Không nắm được tình hình doanh nghiệp real-time</h3>
+                    <p>Doanh thu hôm nay? Lead từ kênh nào nhiều nhất? Mất 2 giờ tổng hợp thủ công để có câu trả lời.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SOLUTION ========== -->
+<section class="section">
+    <div class="container">
+        <div class="solution-intro reveal">
+            <div class="pill-badge">✨ Giải Pháp</div>
+            <h2>Hệ Thống AI Làm Việc Thay Bạn — Ngay Cả Khi Bạn Đang Ngủ</h2>
+            <p>KBC AI Services xây dựng toàn bộ hệ thống tự động hóa cho doanh nghiệp — từ chatbot CSKH 24/7 đến workflow automation phức tạp nhất — bàn giao trong 3–7 ngày làm việc.</p>
+        </div>
+        <div class="steps-3 reveal">
+            <div class="step-box">
+                <div class="step-box-num">Bước 01</div>
+                <div class="step-box-icon">🔍</div>
+                <h3>Phân Tích</h3>
+                <p>Tìm hiểu quy trình & nhu cầu cụ thể của bạn</p>
+            </div>
+            <div class="step-box">
+                <div class="step-box-num">Bước 02</div>
+                <div class="step-box-icon">⚙️</div>
+                <h3>Xây Dựng</h3>
+                <p>Triển khai AI system trong 3–7 ngày làm việc</p>
+            </div>
+            <div class="step-box">
+                <div class="step-box-num">Bước 03</div>
+                <div class="step-box-icon">📈</div>
+                <h3>Bàn Giao & Tối Ưu</h3>
+                <p>Hướng dẫn đầy đủ + hỗ trợ 30 ngày miễn phí</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SERVICES ========== -->
+<section class="section services-bg" id="services">
+    <div class="container">
+        <div class="sec-hdr reveal">
+            <div class="sec-label">Dịch Vụ</div>
+            <h2>5 Giải Pháp AI Toàn Diện Cho Doanh Nghiệp Của Bạn</h2>
+            <p>Mỗi dự án được tùy chỉnh 100% — không có gói template sẵn, không bán code cũ.</p>
+        </div>
+
+        <div class="svc-grid">
+
+            <!-- Chatbot AI -->
+            <div class="svc-card reveal">
+                <div class="svc-icon">🤖</div>
+                <h3>AI Chatbot 24/7</h3>
+                <p>Chatbot thông minh trả lời câu hỏi, tư vấn sản phẩm, thu thập lead — không ngủ, không nghỉ, không lương.</p>
+                <ul class="svc-list">
+                    <li>Powered by GPT-4o — hiểu tiếng Việt hoàn hảo</li>
+                    <li>Nhúng vào website / app / Zalo</li>
+                    <li>Train theo data sản phẩm riêng của bạn</li>
+                    <li>Lưu lịch sử chat & analytics</li>
+                    <li>Cập nhật knowledge base không giới hạn</li>
+                </ul>
+                <div class="svc-price">
+                    <span class="svc-from">Từ</span>
+                    <span class="svc-amount">2.000.000₫</span>
+                    <span class="svc-unit">setup</span>
+                </div>
+            </div>
+
+            <!-- Automation -->
+            <div class="svc-card reveal">
+                <div class="svc-icon">⚡</div>
+                <h3>Workflow Automation</h3>
+                <p>Tự động hóa quy trình kinh doanh với n8n &amp; Make.com. Kết nối 300+ ứng dụng — từ Shopee đến Google Sheets.</p>
+                <ul class="svc-list">
+                    <li>Tự động xử lý đơn hàng & thông báo</li>
+                    <li>Đồng bộ data đa nền tảng real-time</li>
+                    <li>Báo cáo tự động gửi Telegram/Email</li>
+                    <li>Tích hợp CRM, Zalo, Facebook</li>
+                    <li>Monitor & alert khi có vấn đề</li>
+                </ul>
+                <div class="svc-price">
+                    <span class="svc-from">Từ</span>
+                    <span class="svc-amount">3.000.000₫</span>
+                    <span class="svc-unit">/workflow</span>
+                </div>
+            </div>
+
+            <!-- Landing Page -->
+            <div class="svc-card reveal">
+                <div class="svc-icon">📱</div>
+                <h3>Landing Page Bán Hàng</h3>
+                <p>Trang bán hàng chuyển đổi cao, đẹp, nhanh — tích hợp SePay/VietQR, deploy miễn phí lên Vercel trong 1 ngày.</p>
+                <ul class="svc-list">
+                    <li>Design đẹp, mobile-first, tốc độ cao</li>
+                    <li>Tích hợp thanh toán SePay / VietQR</li>
+                    <li>Deploy Vercel — domain miễn phí</li>
+                    <li>Tối ưu SEO cơ bản</li>
+                    <li>Nhúng AI Chatbot sẵn</li>
+                </ul>
+                <div class="svc-price">
+                    <span class="svc-from">Từ</span>
+                    <span class="svc-amount">3.000.000₫</span>
+                    <span class="svc-unit">/trang</span>
+                </div>
+            </div>
+
+            <!-- HERMES AGENT — Full width featured -->
+            <div class="svc-card hermes-card reveal" id="hermes" style="position:relative;">
+                <div class="top-badge">⭐ Flagship</div>
+                <div>
+                    <div class="svc-icon" style="width:60px;height:60px;font-size:1.8rem;">🧠</div>
+                    <h3 style="font-size:1.4rem;margin-bottom:12px;">Hermes Agent — AI Cực Mạnh Kết Nối Mọi Thứ</h3>
+                    <p style="font-size:.97rem;margin-bottom:16px;">Không chỉ là chatbot — Hermes Agent <strong style="color:var(--text);">thực sự làm việc</strong> cho bạn. Tìm kiếm web, đọc tài liệu, gọi API, gửi báo cáo Telegram, lên lịch tác vụ — tất cả tự động qua giao thức MCP.</p>
+                    <p style="font-size:.86rem;margin-bottom:22px;">Phù hợp với doanh nghiệp cần AI phức tạp: nghiên cứu thị trường tự động, tổng hợp email, quản lý quy trình đa bước, kết nối hệ thống nội bộ.</p>
+                    <div class="svc-price" style="margin-bottom:20px;">
+                        <span class="svc-from">Từ</span>
+                        <span class="svc-amount" style="font-size:1.7rem;">10.000.000₫</span>
+                        <span class="svc-unit">tùy phạm vi</span>
+                    </div>
+                    <a href="#contact" class="btn-primary" style="display:inline-flex;width:auto;">Tư Vấn Hermes Agent →</a>
+                </div>
+                <div class="hermes-features">
+                    <div class="h-feat"><span class="fi">🌐</span><span>Tìm kiếm & tổng hợp web real-time</span></div>
+                    <div class="h-feat"><span class="fi">📨</span><span>Gửi báo cáo tự động qua Telegram</span></div>
+                    <div class="h-feat"><span class="fi">📁</span><span>Đọc & phân tích PDF, tài liệu</span></div>
+                    <div class="h-feat"><span class="fi">🔌</span><span>Gọi bất kỳ API theo lệnh</span></div>
+                    <div class="h-feat"><span class="fi">⏰</span><span>Lên lịch tác vụ tự động theo giờ</span></div>
+                    <div class="h-feat"><span class="fi">🧩</span><span>MCP — kết nối mọi tool & service</span></div>
+                    <div class="h-feat"><span class="fi">💾</span><span>Nhớ ngữ cảnh dài hạn, học theo thời gian</span></div>
+                    <div class="h-feat"><span class="fi">🚀</span><span>Chạy trên VPS 24/7 — không downtime</span></div>
+                </div>
+            </div>
+
+            <!-- Web App -->
+            <div class="svc-card reveal" style="grid-column:1/-1;max-width:500px;margin:0 auto;width:100%;">
+                <div class="svc-icon">💻</div>
+                <h3>Web Application</h3>
+                <p>Ứng dụng web full-stack theo yêu cầu — dashboard quản lý, app tích hợp AI, portal nội bộ.</p>
+                <ul class="svc-list">
+                    <li>React / Next.js + backend API</li>
+                    <li>Tích hợp AI (OpenAI, Flowise)</li>
+                    <li>Dashboard analytics thời gian thực</li>
+                    <li>Deploy Vercel + VPS tùy yêu cầu</li>
+                    <li>Bàn giao 100% source code</li>
+                </ul>
+                <div class="svc-price">
+                    <span class="svc-from">Từ</span>
+                    <span class="svc-amount">10.000.000₫</span>
+                    <span class="svc-unit">tùy độ phức tạp</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== HOW IT WORKS ========== -->
+<section class="section">
+    <div class="container">
+        <div class="sec-hdr reveal">
+            <div class="sec-label">Quy Trình</div>
+            <h2>Từ Ý Tưởng Đến AI Hoạt Động — Chỉ 3 Bước</h2>
+            <p>Quy trình rõ ràng, minh bạch — bạn theo dõi tiến độ thực tế qua Telegram.</p>
+        </div>
+        <div class="hiw-track">
+            <div class="hiw-step reveal">
+                <div class="hiw-num">1</div>
+                <h3>Tư Vấn & Phân Tích</h3>
+                <p>Cuộc gọi miễn phí 30 phút — tôi tìm hiểu quy trình, nhu cầu, và mục tiêu cụ thể. Sau đó đề xuất giải pháp AI phù hợp nhất và báo giá chính xác.</p>
+            </div>
+            <div class="hiw-step reveal">
+                <div class="hiw-num">2</div>
+                <h3>Build & Triển Khai</h3>
+                <p>Xây dựng, test kỹ lưỡng, và deploy hệ thống AI trong 3–7 ngày làm việc. Bạn nhận cập nhật tiến độ qua Telegram mỗi ngày.</p>
+            </div>
+            <div class="hiw-step reveal">
+                <div class="hiw-num">3</div>
+                <h3>Bàn Giao & Hỗ Trợ</h3>
+                <p>Bàn giao toàn bộ code, hướng dẫn chi tiết bằng video tiếng Việt, và hỗ trợ 30 ngày sau launch. Bạn sở hữu 100% hệ thống.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== STATS + TESTIMONIALS ========== -->
+<section class="section stats-bg">
+    <div class="container">
+        <div class="sec-hdr reveal">
+            <div class="sec-label">Kết Quả Thực Tế</div>
+            <h2>Con Số Không Biết Nói Dối</h2>
+        </div>
+
+        <div class="stats-bar reveal">
+            <div class="stat-box">
+                <div class="num gradient-text">20h+</div>
+                <div class="lbl">Tiết kiệm trung bình/tuần</div>
+            </div>
+            <div class="stat-box">
+                <div class="num gradient-text">3×</div>
+                <div class="lbl">Tốc độ xử lý CSKH</div>
+            </div>
+            <div class="stat-box">
+                <div class="num gradient-text">99%</div>
+                <div class="lbl">Uptime hệ thống AI</div>
+            </div>
+            <div class="stat-box">
+                <div class="num gradient-text">3–7</div>
+                <div class="lbl">Ngày triển khai trung bình</div>
+            </div>
+        </div>
+
+        <div class="testi-grid">
+            <div class="testi-card reveal">
+                <div class="stars">★★★★★</div>
+                <blockquote>"Chatbot AI xử lý 80% câu hỏi khách không cần nhân viên. Tôi tiết kiệm được 3 nhân sự CSKH part-time. ROI hoàn vốn chỉ sau 1 tháng — quá tuyệt!"</blockquote>
+                <div class="testi-author">
+                    <div class="avatar">👔</div>
+                    <div class="testi-info">
+                        <strong>Anh Minh Tuấn</strong>
+                        <span>Chủ shop thời trang online, TP.HCM</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="stars">★★★★★</div>
+                <blockquote>"n8n automation giúp team ngừng copy-paste data thủ công. Workflow tự chạy, báo cáo tự gửi Telegram 9PM mỗi tối. Tôi luôn nắm số liệu mà không tốn phút nào."</blockquote>
+                <div class="testi-author">
+                    <div class="avatar">💼</div>
+                    <div class="testi-info">
+                        <strong>Chị Thu Hà</strong>
+                        <span>Giám đốc Marketing, SME Hà Nội</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="stars">★★★★★</div>
+                <blockquote>"Hermes Agent đọc email, tổng hợp tin tức, và gửi brief sáng qua Telegram trước khi tôi uống cà phê. Cảm giác có trợ lý riêng mà không tốn lương tháng."</blockquote>
+                <div class="testi-author">
+                    <div class="avatar">🏢</div>
+                    <div class="testi-info">
+                        <strong>Anh Đức Long</strong>
+                        <span>CEO, Công ty logistics, Đà Nẵng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PRICING ========== -->
+<section class="section" id="pricing">
+    <div class="container">
+        <div class="sec-hdr reveal">
+            <div class="sec-label">Bảng Giá</div>
+            <h2>Gói Phù Hợp Với Mọi Quy Mô Doanh Nghiệp</h2>
+            <p>Tất cả gói bao gồm tư vấn miễn phí, bàn giao code đầy đủ, và hỗ trợ sau bàn giao.</p>
+        </div>
+
+        <div class="pricing-grid">
+
+            <!-- Starter -->
+            <div class="plan-card reveal">
+                <div class="plan-name">Starter</div>
+                <div class="plan-price">2.000.000₫ <sub>setup</sub></div>
+                <div class="plan-desc">AI Chatbot cơ bản — lý tưởng cho shop online &amp; SME muốn bắt đầu với AI không tốn kém.</div>
+                <ul class="plan-list">
+                    <li><span class="chk">✓</span> AI Chatbot GPT-4o</li>
+                    <li><span class="chk">✓</span> Nhúng vào website</li>
+                    <li><span class="chk">✓</span> 50 câu hỏi-đáp custom</li>
+                    <li><span class="chk">✓</span> Bàn giao full source code</li>
+                    <li><span class="chk">✓</span> Hỗ trợ 30 ngày</li>
+                    <li><span class="xmark">✗</span> Workflow automation</li>
+                    <li><span class="xmark">✗</span> Telegram integration</li>
+                    <li><span class="xmark">✗</span> Landing page</li>
+                </ul>
+                <a href="#contact" class="btn-plan ghost">Bắt Đầu →</a>
+            </div>
+
+            <!-- Growth - Popular -->
+            <div class="plan-card popular reveal">
+                <div class="popular-tag">🔥 Phổ Biến Nhất</div>
+                <div class="plan-name">Growth</div>
+                <div class="plan-price">8.000.000₫</div>
+                <div class="plan-desc">Chatbot AI + Automation — combo hoàn hảo cho doanh nghiệp muốn tăng trưởng nhanh mà không thuê thêm người.</div>
+                <ul class="plan-list">
+                    <li><span class="chk">✓</span> Tất cả trong Starter</li>
+                    <li><span class="chk">✓</span> 3 workflow n8n automation</li>
+                    <li><span class="chk">✓</span> Telegram notification setup</li>
+                    <li><span class="chk">✓</span> Tích hợp Zalo / FB Messenger</li>
+                    <li><span class="chk">✓</span> Báo cáo tự động hàng ngày</li>
+                    <li><span class="chk">✓</span> Landing page bán hàng</li>
+                    <li><span class="chk">✓</span> Hỗ trợ ưu tiên 60 ngày</li>
+                    <li><span class="chk">✓</span> 1 buổi training online</li>
+                </ul>
+                <a href="#contact" class="btn-plan solid">Tôi Muốn Gói Này →</a>
+            </div>
+
+            <!-- Enterprise -->
+            <div class="plan-card reveal">
+                <div class="plan-name">Enterprise AI</div>
+                <div class="plan-price">Liên hệ</div>
+                <div class="plan-desc">Hermes Agent + toàn bộ ecosystem AI — cho doanh nghiệp muốn AI vận hành hoàn toàn tự động.</div>
+                <ul class="plan-list">
+                    <li><span class="chk">✓</span> Tất cả trong Growth</li>
+                    <li><span class="chk">✓</span> Hermes Agent (MCP)</li>
+                    <li><span class="chk">✓</span> Custom Web Application</li>
+                    <li><span class="chk">✓</span> VPS setup &amp; cấu hình SSL</li>
+                    <li><span class="chk">✓</span> AI đọc/phân tích document</li>
+                    <li><span class="chk">✓</span> Unlimited workflows</li>
+                    <li><span class="chk">✓</span> Hỗ trợ priority 90 ngày</li>
+                    <li><span class="chk">✓</span> Monthly review &amp; optimize</li>
+                </ul>
+                <a href="#contact" class="btn-plan ghost">Tư Vấn Ngay →</a>
+            </div>
+
+        </div>
+
+        <p style="text-align:center;margin-top:24px;font-size:.85rem;">
+            💡 Giá trên là <strong style="color:var(--text);">tham khảo khởi điểm</strong>. Dự án thực tế được báo giá chính xác sau cuộc tư vấn miễn phí 30 phút.
+        </p>
+    </div>
+</section>
+
+
+<!-- ========== GUARANTEE ========== -->
+<section class="section-sm guarantee-bg">
+    <div class="container">
+        <div class="g-box reveal">
+            <div class="g-icon">🛡️</div>
+            <h2>Bảo Hành 30 Ngày — Cam Kết 100% Hoạt Động</h2>
+            <p>Nếu hệ thống AI không hoạt động đúng như thỏa thuận sau bàn giao, tôi sửa miễn phí không giới hạn lần trong 30 ngày. Bạn không có rủi ro gì — nếu tôi không giao đúng cam kết, bạn được hoàn tiền 100%.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== FAQ ========== -->
+<section class="section faq-bg" id="faq">
+    <div class="container">
+        <div class="sec-hdr reveal">
+            <div class="sec-label">FAQ</div>
+            <h2>Câu Hỏi Thường Gặp</h2>
+        </div>
+        <div class="faq-wrap">
+
+            <div class="faq-item reveal">
+                <button class="faq-btn" onclick="toggleFAQ(this)">
+                    Tôi không biết gì về AI — có cần kỹ năng kỹ thuật không?
+                    <span class="faq-arrow">+</span>
+                </button>
+                <div class="faq-body">
+                    <p>Hoàn toàn không! Bạn chỉ cần mô tả nhu cầu và quy trình kinh doanh. Tôi xử lý 100% phần kỹ thuật và bàn giao hệ thống hoạt động sẵn kèm hướng dẫn sử dụng đơn giản bằng tiếng Việt. Nhiều khách hàng của tôi lần đầu nghe đến AI.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-btn" onclick="toggleFAQ(this)">
+                    Chatbot có hiểu tiếng Việt và đặc thù kinh doanh Việt Nam không?
+                    <span class="faq-arrow">+</span>
+                </button>
+                <div class="faq-body">
+                    <p>Có. GPT-4o hiểu tiếng Việt rất tốt — bao gồm slang và cách nói thông thường. Quan trọng hơn, tôi "train" chatbot bằng dữ liệu riêng của bạn: sản phẩm, giá, chính sách, tone of voice thương hiệu. Chatbot sẽ nghe như nhân viên của chính bạn.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-btn" onclick="toggleFAQ(this)">
+                    Mất bao lâu để có hệ thống AI hoạt động?
+                    <span class="faq-arrow">+</span>
+                </button>
+                <div class="faq-body">
+                    <p>Chatbot cơ bản: 2–3 ngày làm việc. Workflow automation: 3–5 ngày. Hermes Agent toàn diện: 7–14 ngày. Thời gian chính xác phụ thuộc vào độ phức tạp và tốc độ phản hồi khi tôi cần xác nhận thông tin.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-btn" onclick="toggleFAQ(this)">
+                    Chi phí vận hành hàng tháng sau khi triển khai là bao nhiêu?
+                    <span class="faq-arrow">+</span>
+                </button>
+                <div class="faq-body">
+                    <p>Chi phí chính là API OpenAI (~300K–2 triệu/tháng tùy lượng tin nhắn) và VPS nếu cần (~200K–500K/tháng). Với chatbot nhỏ, nhiều khách hàng tốn dưới 500K/tháng. Tôi tư vấn tối ưu chi phí trước khi triển khai để phù hợp ngân sách của bạn.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-btn" onclick="toggleFAQ(this)">
+                    Nếu cần thay đổi hoặc nâng cấp sau này thì sao?
+                    <span class="faq-arrow">+</span>
+                </button>
+                <div class="faq-body">
+                    <p>Tôi bàn giao toàn bộ source code — bạn sở hữu hoàn toàn. Bạn có thể tự chỉnh sửa hoặc thuê bất kỳ dev nào khác. Tôi cũng hỗ trợ nâng cấp, thêm tính năng với chi phí hợp lý. Nhiều khách hàng làm việc lâu dài cùng tôi vì tiện lợi.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-btn" onclick="toggleFAQ(this)">
+                    Dữ liệu doanh nghiệp có an toàn không?
+                    <span class="faq-arrow">+</span>
+                </button>
+                <div class="faq-body">
+                    <p>An toàn. Hệ thống chạy trên server riêng của bạn hoặc cloud provider uy tín (Hostinger, AWS). Dữ liệu không đi qua bên thứ ba ngoài OpenAI (theo ToS của họ). Tôi ký NDA theo yêu cầu và hướng dẫn các biện pháp bảo mật chuẩn.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-btn" onclick="toggleFAQ(this)">
+                    Dịch vụ có phù hợp với doanh nghiệp nhỏ hoặc solopreneur không?
+                    <span class="faq-arrow">+</span>
+                </button>
+                <div class="faq-body">
+                    <p>Rất phù hợp — thực ra doanh nghiệp nhỏ được lợi nhiều nhất từ AI. Chatbot 2 triệu có thể thay 1 nhân sự CSKH part-time (chi phí 3–5 triệu/tháng). ROI rõ ràng từ tháng đầu. Tôi đặc biệt thích làm việc với solopreneur vì dễ thống nhất và triển khai nhanh.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== FINAL CTA ========== -->
+<section class="final-cta" id="contact">
+    <div class="container">
+        <div class="reveal">
+            <div class="sec-label">Bắt Đầu Ngay</div>
+            <h2>Sẵn Sàng Để AI Làm Việc Thay Bạn?</h2>
+            <p>Đặt lịch tư vấn miễn phí 30 phút — tôi phân tích quy trình và đề xuất giải pháp AI phù hợp nhất, kèm ROI ước tính cụ thể.</p>
+
+            <div class="cta-row">
+                <a href="https://t.me/KBC_Sales_bot" class="btn-primary" target="_blank" rel="noopener">
+                    📱 Nhắn Telegram Ngay
+                </a>
+                <a href="https://www.fiverr.com/kbc_automation" class="btn-outline" target="_blank" rel="noopener">
+                    💼 Xem Gig Fiverr →
+                </a>
+            </div>
+
+            <div class="contact-row">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <a href="mailto:dangkhoi116@gmail.com">dangkhoi116@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <span>🌐</span>
+                    <a href="https://portfolio-azure-nu-35.vercel.app" target="_blank" rel="noopener">Portfolio</a>
+                </div>
+                <div class="contact-item">
+                    <span>💼</span>
+                    <a href="https://www.fiverr.com/kbc_automation" target="_blank" rel="noopener">fiverr.com/kbc_automation</a>
+                </div>
+            </div>
+
+            <div class="trust-row">
+                <div class="trust-item"><span class="ok">✓</span> Tư vấn miễn phí</div>
+                <div class="trust-item"><span class="ok">✓</span> Bảo hành 30 ngày</div>
+                <div class="trust-item"><span class="ok">✓</span> Bàn giao 100% code</div>
+                <div class="trust-item"><span class="ok">✓</span> Hỗ trợ tiếng Việt</div>
+                <div class="trust-item"><span class="ok">✓</span> Hoàn tiền nếu không đạt</div>
+            </div>
+
+            <p class="ps-note">
+                <strong>P.S.</strong> Mỗi ngày trì hoãn = thêm nhiều giờ lãng phí vào công việc thủ công. Cuộc tư vấn miễn phí không ràng buộc — không có gì để mất, chỉ có thời gian để tiết kiệm.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== FOOTER ========== -->
+<footer>
+    <div class="container">
+        <p style="margin-bottom:10px;">
+            <a href="https://portfolio-azure-nu-35.vercel.app" target="_blank" rel="noopener">Portfolio</a> &nbsp;·&nbsp;
+            <a href="https://www.fiverr.com/kbc_automation" target="_blank" rel="noopener">Fiverr</a> &nbsp;·&nbsp;
+            <a href="mailto:dangkhoi116@gmail.com">Email</a>
+        </p>
+        <p>© 2026 KBC AI Services — Nguyễn Đăng Khôi. All rights reserved.</p>
+        <p style="margin-top:8px;font-size:.76rem;color:#555578;">
+            Chính sách hoàn tiền: Hoàn 100% nếu không bàn giao đúng cam kết.
+            Liên hệ hỗ trợ: <a href="mailto:dangkhoi116@gmail.com">dangkhoi116@gmail.com</a>
+        </p>
+    </div>
+</footer>
+
+
+<!-- ========== FLOATING CONTACT ========== -->
+<div class="float-group">
+    <a href="https://zalo.me/0346839947" class="float-btn fb-zl" target="_blank" rel="noopener" title="Zalo">💬</a>
+    <a href="https://t.me/KBC_Sales_bot" class="float-btn fb-tg" target="_blank" rel="noopener" title="Telegram">✈</a>
+</div>
+
+
+<!-- ========== FLOWISE CHATBOT ========== -->
+<!--
+    ⚠️ IMPORTANT: The apiHost URL below (trycloudflare.com) changes every time
+    the flowise-https container restarts. Update it once you have a permanent domain.
+    Permanent fix: claim your Hostinger free domain → add Traefik labels to Flowise → auto SSL.
+-->
+<script type="module">
+    import Chatbot from 'https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js'
+    Chatbot.init({
+        chatflowid: "bfa4087e-c5be-44ac-a1c4-6a2b4a0fa461",
+        apiHost: "https://rrp-exclude-oem-drum.trycloudflare.com",
+        chatflowConfig: {},
+        theme: {
+            button: {
+                backgroundColor: "#6366f1",
+                right: 20,
+                bottom: 20,
+                size: 50,
+                dragAndDrop: true,
+                iconColor: "white",
+                customIconSrc: "",
+            },
+            chatWindow: {
+                showTitle: true,
+                title: "KBC AI Consultant",
+                titleAvatarSrc: "",
+                welcomeMessage: "Xin chào! Tôi là KBC AI Assistant 👋\n\nTôi có thể giúp anh/chị tìm hiểu về các dịch vụ AI automation, báo giá sơ bộ, hoặc tư vấn giải pháp phù hợp. Anh/chị cần hỗ trợ gì?",
+                backgroundColor: "#0c0c18",
+                height: 680,
+                width: 380,
+                fontSize: 14,
+                userMessage: {
+                    backgroundColor: "#6366f1",
+                    textColor: "#ffffff",
+                    showAvatar: false,
+                },
+                botMessage: {
+                    backgroundColor: "#13132a",
+                    textColor: "#e1e1f0",
+                    showAvatar: true,
+                    avatarSrc: "",
+                },
+                textInput: {
+                    placeholder: "Hỏi về dịch vụ AI của KBC...",
+                    backgroundColor: "#0c0c18",
+                    textColor: "#e1e1f0",
+                    sendButtonColor: "#6366f1",
+                },
+                footer: {
+                    textColor: "#4b5563",
+                    text: "Powered by",
+                    company: "KBC AI",
+                    companyLink: "",
+                },
+            }
+        }
+    })
+</script>
+
+
+<!-- ========== SCROLL ANIMATION + FAQ ========== -->
+<script>
+    // Scroll reveal
+    const ro = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    // Navbar: hide announce bar + move nav to top on scroll
+    const announceBar = document.querySelector('.announce-bar');
+    const navEl = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY > 60;
+        navEl.classList.toggle('scrolled', scrolled);
+        if (scrolled) {
+            announceBar.style.transform = 'translateY(-100%)';
+            navEl.style.top = '0';
+        } else {
+            announceBar.style.transform = '';
+            navEl.style.top = '36px';
+        }
+    }, { passive: true });
+
+    // FAQ accordion
+    function toggleFAQ(btn) {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+    }
+</script>
+
+</body>
+</html>
