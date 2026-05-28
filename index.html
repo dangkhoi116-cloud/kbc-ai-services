@@ -825,7 +825,7 @@
                         <div class="hero-num-label" id="stat-2">AI hoạt động</div>
                     </div>
                     <div class="hero-num-item">
-                        <div class="hero-num">3 ngày</div>
+                        <div class="hero-num" id="stat-3-num">3 ngày</div>
                         <div class="hero-num-label" id="stat-3">Triển khai xong</div>
                     </div>
                 </div>
@@ -835,12 +835,12 @@
             <div class="hero-visual fade-up delay-2">
                 <div class="badge-float b1">
                     <span class="icon">⚡</span>
-                    <div>
+                    <div id="hero-b1">
                         <strong style="display:block;font-size:.82rem;">Workflow tự chạy</strong>
                         <span style="font-size:.75rem;color:var(--success);">● Đang hoạt động</span>
                     </div>
                 </div>
-                <div class="chat-mockup">
+                <div class="chat-mockup" id="hero-chat">
                     <div class="chat-header">
                         <div class="chat-avatar">🤖</div>
                         <div class="chat-header-info">
@@ -867,7 +867,7 @@
                 </div>
                 <div class="badge-float b2">
                     <span class="icon">📊</span>
-                    <div>
+                    <div id="hero-b2">
                         <strong style="display:block;font-size:.82rem;">Báo cáo tự gửi Telegram</strong>
                         <span style="font-size:.75rem;color:var(--muted);">Mỗi tối 9:00 PM</span>
                     </div>
@@ -1929,6 +1929,10 @@
             'hero-p': 'Chatbot AI 24/7, Workflow Automation, Hermes Agent MCP — tôi xây hệ thống AI tự động hóa toàn bộ quy trình kinh doanh của bạn. Triển khai trong 3–7 ngày.',
             'hero-btn1': '🚀 Nhận Tư Vấn Miễn Phí', 'hero-btn2': 'Xem Dịch Vụ ↓',
             'stat-1': 'Tiết kiệm/tuần', 'stat-2': 'AI hoạt động', 'stat-3': 'Triển khai xong',
+            'stat-3-num': '3 ngày',
+            'hero-b1': '<strong style="display:block;font-size:.82rem;">Workflow tự chạy</strong><span style="font-size:.75rem;color:var(--success);">● Đang hoạt động</span>',
+            'hero-b2': '<strong style="display:block;font-size:.82rem;">Báo cáo tự gửi Telegram</strong><span style="font-size:.75rem;color:var(--muted);">Mỗi tối 9:00 PM</span>',
+            'hero-chat': '<div class="chat-header"><div class="chat-avatar">🤖</div><div class="chat-header-info"><strong>KBC AI Assistant</strong><span>● Online 24/7</span></div></div><div class="chat-bubble user"><div class="chat-bubble-label">Khách hàng • 11:52 PM</div>Cho hỏi sản phẩm có bảo hành không? Giá bao nhiêu?</div><div class="chat-bubble bot"><div class="chat-bubble-label">AI Assistant</div>Dạ, sản phẩm được bảo hành 12 tháng chính hãng anh/chị nhé! Giá hiện tại từ 2.500.000₫, đang có chương trình giảm 15% đến hết tuần. Anh/chị muốn tư vấn thêm không? 😊</div><div class="chat-bubble user"><div class="chat-bubble-label">Khách hàng</div>Có giao hàng Đà Nẵng không?</div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><span style="font-size:.75rem;color:var(--muted);">AI đang trả lời...</span><div class="typing"><span></span><span></span><span></span></div></div>',
             // Pain
             'pain-hdr': '<div class="sec-label">Vấn Đề</div><h2>Bạn Đang Tốn Thời Gian Vào Những Việc AI Có Thể Làm Thay</h2><p>Mỗi ngày, chủ doanh nghiệp Việt lãng phí 4–6 giờ vào công việc lặp đi lặp lại...</p>',
             'pain-grid': '<div class="pain-card reveal visible"><div class="pain-card-icon">😰</div><div><h3>Trả lời cùng câu hỏi 50 lần/ngày</h3><p>Giá bao nhiêu? Giao bao lâu? Sản phẩm phù hợp không? Nhân viên kiệt sức, khách chờ đợi và bỏ đi.</p></div></div><div class="pain-card reveal visible"><div class="pain-card-icon">⏰</div><div><h3>Quy trình thủ công ngốn 3–4 giờ/ngày</h3><p>Copy data từ form sang sheet, gửi email nhắc nhở thủ công, tổng hợp báo cáo mất cả buổi chiều.</p></div></div><div class="pain-card reveal visible"><div class="pain-card-icon">🌙</div><div><h3>Mất khách hàng ngoài giờ làm việc</h3><p>Khách hỏi lúc 11PM — sáng hôm sau mới trả lời. Khi đó họ đã mua của đối thủ. AI không có = doanh thu đêm bị mất.</p></div></div><div class="pain-card reveal visible"><div class="pain-card-icon">📊</div><div><h3>Không nắm được tình hình doanh nghiệp real-time</h3><p>Doanh thu hôm nay? Lead từ kênh nào nhiều nhất? Mất 2 giờ tổng hợp thủ công để có câu trả lời.</p></div></div>',
@@ -1987,6 +1991,10 @@
             'hero-p': 'AI Chatbot 24/7, Workflow Automation, Hermes Agent MCP — I build complete AI systems that automate your entire business. Delivered in 3–7 days.',
             'hero-btn1': '🚀 Get Free Consultation', 'hero-btn2': 'View Services ↓',
             'stat-1': 'Hours saved/week', 'stat-2': 'AI uptime', 'stat-3': 'Deploy time',
+            'stat-3-num': '3 days',
+            'hero-b1': '<strong style="display:block;font-size:.82rem;">Workflow running</strong><span style="font-size:.75rem;color:var(--success);">● Active now</span>',
+            'hero-b2': '<strong style="display:block;font-size:.82rem;">Auto-report via Telegram</strong><span style="font-size:.75rem;color:var(--muted);">Every night 9:00 PM</span>',
+            'hero-chat': '<div class="chat-header"><div class="chat-avatar">🤖</div><div class="chat-header-info"><strong>KBC AI Assistant</strong><span>● Online 24/7</span></div></div><div class="chat-bubble user"><div class="chat-bubble-label">Customer • 11:52 PM</div>Does the product come with a warranty? How much is it?</div><div class="chat-bubble bot"><div class="chat-bubble-label">AI Assistant</div>Yes! The product comes with a 12-month official warranty. Prices start from 2,500,000₫ and there\'s currently a 15% discount running until end of week. Would you like more details? 😊</div><div class="chat-bubble user"><div class="chat-bubble-label">Customer</div>Do you deliver to Da Nang?</div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><span style="font-size:.75rem;color:var(--muted);">AI is replying...</span><div class="typing"><span></span><span></span><span></span></div></div>',
             // Pain
             'pain-hdr': '<div class="sec-label">Pain Points</div><h2>You\'re Wasting Time on Tasks AI Can Handle For You</h2><p>Every day, business owners waste 4–6 hours on repetitive, manual tasks...</p>',
             'pain-grid': '<div class="pain-card reveal visible"><div class="pain-card-icon">😰</div><div><h3>Answering the Same 50 Questions Every Day</h3><p>How much? When does it ship? Is this right for me? Staff burn out, customers wait and leave.</p></div></div><div class="pain-card reveal visible"><div class="pain-card-icon">⏰</div><div><h3>Manual Processes Eating 3–4 Hours Daily</h3><p>Copying data from forms to spreadsheets, sending manual reminder emails, spending half an afternoon compiling reports.</p></div></div><div class="pain-card reveal visible"><div class="pain-card-icon">🌙</div><div><h3>Losing Customers After Business Hours</h3><p>Customer asks at 11PM — you reply the next morning. By then they\'ve bought from your competitor. No AI = lost revenue every night.</p></div></div><div class="pain-card reveal visible"><div class="pain-card-icon">📊</div><div><h3>No Real-Time Business Visibility</h3><p>Revenue today? Which channel brings the most leads? It takes 2 hours of manual work just to get an answer.</p></div></div>',
