@@ -535,6 +535,78 @@
         .fb-tg { background:#0088cc; color:white; }
         .fb-zl { background:#0068ff; color:white; }
 
+        /* ========== PAYMENT MODAL ========== */
+        .pay-overlay {
+            position:fixed; inset:0; z-index:2000;
+            background:rgba(0,0,0,.78); backdrop-filter:blur(6px);
+            display:flex; align-items:center; justify-content:center; padding:16px;
+            opacity:0; visibility:hidden; transition:opacity .3s, visibility .3s;
+        }
+        .pay-overlay.open { opacity:1; visibility:visible; }
+        .pay-modal {
+            background:var(--bg3); border:1px solid rgba(99,102,241,.3);
+            border-radius:22px; padding:32px 28px;
+            width:100%; max-width:420px; position:relative;
+            max-height:92vh; overflow-y:auto;
+            transform:scale(.95) translateY(16px); transition:transform .3s;
+        }
+        .pay-overlay.open .pay-modal { transform:scale(1) translateY(0); }
+        .pay-close {
+            position:absolute; top:14px; right:14px;
+            background:rgba(255,255,255,.08); border:none; color:var(--muted);
+            width:34px; height:34px; border-radius:50%; cursor:pointer;
+            font-size:1.3rem; line-height:1; display:flex; align-items:center; justify-content:center;
+            transition:all .22s; font-family:inherit;
+        }
+        .pay-close:hover { background:rgba(255,255,255,.16); color:var(--text); }
+        .pay-header { text-align:center; margin-bottom:20px; }
+        .pay-pkg { font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.12em; font-weight:700; margin-bottom:6px; }
+        .pay-amount { font-size:1.9rem; font-weight:900; color:var(--accent2); line-height:1; }
+        .pay-sub { font-size:.8rem; color:var(--muted); margin-top:4px; }
+        .pay-qr {
+            display:block; margin:0 auto 16px;
+            width:224px; height:224px; border-radius:14px;
+            border:1px solid var(--border);
+        }
+        .pay-details {
+            background:rgba(255,255,255,.04); border:1px solid var(--border);
+            border-radius:12px; padding:14px 16px; margin-bottom:16px;
+        }
+        .pay-row {
+            display:flex; justify-content:space-between; align-items:center;
+            padding:7px 0; font-size:.86rem;
+            border-bottom:1px solid rgba(255,255,255,.04);
+        }
+        .pay-row:last-child { border-bottom:none; }
+        .pay-lbl { color:var(--muted); flex-shrink:0; margin-right:12px; }
+        .pay-val { color:var(--text); font-weight:600; display:flex; align-items:center; gap:7px; text-align:right; }
+        .pay-val.green { color:var(--success); }
+        .copy-btn {
+            background:rgba(99,102,241,.2); border:none; color:var(--accent);
+            padding:2px 9px; border-radius:5px; cursor:pointer; font-size:.7rem;
+            font-weight:700; transition:all .2s; font-family:inherit; flex-shrink:0;
+        }
+        .copy-btn:hover { background:rgba(99,102,241,.4); }
+        .copy-btn.copied { background:rgba(34,197,94,.2); color:var(--success); }
+        .pay-note {
+            background:rgba(99,102,241,.09); border:1px solid rgba(99,102,241,.2);
+            border-radius:11px; padding:13px 15px; font-size:.83rem; line-height:1.6;
+            color:var(--text); margin-bottom:16px;
+        }
+        .pay-note strong { color:var(--accent2); }
+        .pay-tg-btn {
+            display:flex; align-items:center; justify-content:center; gap:9px;
+            background:#0088cc; color:white; border-radius:11px; padding:13px;
+            font-weight:700; font-size:.92rem; text-decoration:none;
+            transition:all .3s; border:none; cursor:pointer; width:100%;
+        }
+        .pay-tg-btn:hover { opacity:.88; transform:translateY(-1px); }
+        .pay-deposit-note {
+            background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.22);
+            border-radius:9px; padding:10px 14px; font-size:.8rem; color:var(--warning);
+            margin-bottom:14px; text-align:center;
+        }
+
         /* ========== RESPONSIVE ========== */
         @media (max-width: 900px) {
             .hero-grid { grid-template-columns:1fr; gap:40px; }
@@ -980,7 +1052,7 @@
                     <li><span class="xmark">✗</span> Telegram integration</li>
                     <li><span class="xmark">✗</span> Landing page</li>
                 </ul>
-                <a href="#contact" class="btn-plan ghost">Bắt Đầu →</a>
+                <button onclick="openModal('modal-starter')" class="btn-plan ghost">💳 Thanh Toán Ngay →</button>
             </div>
 
             <!-- Growth - Popular -->
@@ -999,7 +1071,7 @@
                     <li><span class="chk">✓</span> Hỗ trợ ưu tiên 60 ngày</li>
                     <li><span class="chk">✓</span> 1 buổi training online</li>
                 </ul>
-                <a href="#contact" class="btn-plan solid">Tôi Muốn Gói Này →</a>
+                <button onclick="openModal('modal-growth')" class="btn-plan solid">💳 Đặt Cọc Ngay →</button>
             </div>
 
             <!-- Enterprise -->
@@ -1017,7 +1089,7 @@
                     <li><span class="chk">✓</span> Hỗ trợ priority 90 ngày</li>
                     <li><span class="chk">✓</span> Monthly review &amp; optimize</li>
                 </ul>
-                <a href="#contact" class="btn-plan ghost">Tư Vấn Ngay →</a>
+                <a href="https://t.me/KBC_Sales_bot" target="_blank" class="btn-plan ghost">📱 Liên Hệ Telegram →</a>
             </div>
 
         </div>
@@ -1197,6 +1269,99 @@
 </div>
 
 
+<!-- ========== PAYMENT MODALS ========== -->
+
+<!-- STARTER — 2,000,000₫ -->
+<div class="pay-overlay" id="modal-starter" onclick="closeModalOverlay(event,'modal-starter')">
+    <div class="pay-modal">
+        <button class="pay-close" onclick="closeModal('modal-starter')">×</button>
+        <div class="pay-header">
+            <div class="pay-pkg">Gói Starter</div>
+            <div class="pay-amount">2.000.000₫</div>
+            <div class="pay-sub">Thanh toán một lần · Không phí ẩn</div>
+        </div>
+        <img class="pay-qr"
+            src="https://img.vietqr.io/image/VCB-9346839947-compact2.png?amount=2000000&addInfo=STARTER_KBCAI&accountName=NGUYEN%20DANG%20KHOI"
+            alt="QR thanh toán Gói Starter KBC AI"
+            loading="lazy" />
+        <div class="pay-details">
+            <div class="pay-row">
+                <span class="pay-lbl">Ngân hàng</span>
+                <span class="pay-val">Vietcombank (VCB)</span>
+            </div>
+            <div class="pay-row">
+                <span class="pay-lbl">Số tài khoản</span>
+                <span class="pay-val">9346839947 <button class="copy-btn" onclick="copyTxt('9346839947',this)">Copy</button></span>
+            </div>
+            <div class="pay-row">
+                <span class="pay-lbl">Chủ TK</span>
+                <span class="pay-val">NGUYEN DANG KHOI</span>
+            </div>
+            <div class="pay-row">
+                <span class="pay-lbl">Số tiền</span>
+                <span class="pay-val green">2.000.000₫</span>
+            </div>
+            <div class="pay-row">
+                <span class="pay-lbl">Nội dung</span>
+                <span class="pay-val">STARTER_KBCAI <button class="copy-btn" onclick="copyTxt('STARTER_KBCAI',this)">Copy</button></span>
+            </div>
+        </div>
+        <div class="pay-note">
+            <strong>Sau khi chuyển khoản:</strong> Nhắn <strong>@KBC_Sales_bot</strong> kèm ảnh chụp màn hình để xác nhận. Em sẽ liên hệ trong vòng <strong>2 giờ</strong> và bắt đầu triển khai trong 24h.
+        </div>
+        <a href="https://t.me/KBC_Sales_bot" target="_blank" rel="noopener" class="pay-tg-btn">
+            ✈ Xác Nhận Thanh Toán qua Telegram
+        </a>
+    </div>
+</div>
+
+<!-- GROWTH — 8,000,000₫ (đặt cọc 50% = 4,000,000₫) -->
+<div class="pay-overlay" id="modal-growth" onclick="closeModalOverlay(event,'modal-growth')">
+    <div class="pay-modal">
+        <button class="pay-close" onclick="closeModal('modal-growth')">×</button>
+        <div class="pay-header">
+            <div class="pay-pkg">Gói Growth</div>
+            <div class="pay-amount">4.000.000₫</div>
+            <div class="pay-sub">Đặt cọc 50% để bắt đầu · Còn 4.000.000₫ sau khi bàn giao</div>
+        </div>
+        <div class="pay-deposit-note">
+            ⚡ Cọc 50% → Em bắt đầu ngay · Thanh toán 50% còn lại sau khi anh/chị nghiệm thu
+        </div>
+        <img class="pay-qr"
+            src="https://img.vietqr.io/image/VCB-9346839947-compact2.png?amount=4000000&addInfo=GROWTH_KBCAI&accountName=NGUYEN%20DANG%20KHOI"
+            alt="QR đặt cọc Gói Growth KBC AI"
+            loading="lazy" />
+        <div class="pay-details">
+            <div class="pay-row">
+                <span class="pay-lbl">Ngân hàng</span>
+                <span class="pay-val">Vietcombank (VCB)</span>
+            </div>
+            <div class="pay-row">
+                <span class="pay-lbl">Số tài khoản</span>
+                <span class="pay-val">9346839947 <button class="copy-btn" onclick="copyTxt('9346839947',this)">Copy</button></span>
+            </div>
+            <div class="pay-row">
+                <span class="pay-lbl">Chủ TK</span>
+                <span class="pay-val">NGUYEN DANG KHOI</span>
+            </div>
+            <div class="pay-row">
+                <span class="pay-lbl">Đặt cọc</span>
+                <span class="pay-val green">4.000.000₫</span>
+            </div>
+            <div class="pay-row">
+                <span class="pay-lbl">Nội dung</span>
+                <span class="pay-val">GROWTH_KBCAI <button class="copy-btn" onclick="copyTxt('GROWTH_KBCAI',this)">Copy</button></span>
+            </div>
+        </div>
+        <div class="pay-note">
+            <strong>Sau khi chuyển cọc:</strong> Nhắn <strong>@KBC_Sales_bot</strong> kèm screenshot để xác nhận. Em sẽ liên hệ trong <strong>2 giờ</strong>, lên kế hoạch triển khai và bắt đầu trong 24h.
+        </div>
+        <a href="https://t.me/KBC_Sales_bot" target="_blank" rel="noopener" class="pay-tg-btn">
+            ✈ Xác Nhận Đặt Cọc qua Telegram
+        </a>
+    </div>
+</div>
+
 <!-- ========== FLOWISE CHATBOT ========== -->
 <!--
     ⚠️ IMPORTANT: The apiHost URL below (trycloudflare.com) changes every time
@@ -1279,6 +1444,44 @@
             navEl.style.top = '36px';
         }
     }, { passive: true });
+
+    // Payment modals
+    function openModal(id) {
+        document.getElementById(id).classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function closeModalOverlay(e, id) {
+        if (e.target === e.currentTarget) closeModal(id);
+    }
+    function copyTxt(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = '✓ Copied';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+        }).catch(() => {
+            // Fallback for older browsers
+            const ta = document.createElement('textarea');
+            ta.value = text; document.body.appendChild(ta);
+            ta.select(); document.execCommand('copy');
+            document.body.removeChild(ta);
+            btn.textContent = '✓ Copied'; btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+        });
+    }
+    // Close modal on Escape key
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.pay-overlay.open').forEach(m => {
+                m.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        }
+    });
 
     // FAQ accordion
     function toggleFAQ(btn) {
